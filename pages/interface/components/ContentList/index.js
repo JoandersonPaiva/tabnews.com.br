@@ -1,3 +1,4 @@
+import ReadingTime from '@/ReadingTime';
 import { Box, EmptyState, Link, PublishedSince, Text } from '@/TabNewsUI';
 import { ChevronLeftIcon, ChevronRightIcon, CommentIcon } from '@primer/octicons-react';
 
@@ -120,6 +121,10 @@ export default function ContentList({ contentList: list, pagination, paginationB
             {' · '}
             <Text>
               <PublishedSince direction="nw" date={contentObject.published_at} sx={{ position: 'absolute', ml: 1 }} />
+            </Text>
+            {' · '}
+            <Text>
+              <ReadingTime words={contentObject.words_quantity} />
             </Text>
           </Box>
         </Box>,

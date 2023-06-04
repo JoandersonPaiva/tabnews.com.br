@@ -601,6 +601,7 @@ const schemas = {
       'title',
       'body',
       'status',
+      'words_quantity',
       'source_url',
       'created_at',
       'updated_at',
@@ -778,6 +779,25 @@ const schemas = {
           'string.base': `"ban_type" deve ser do tipo String.`,
           'any.invalid': `"ban_type" possui o valor inválido "null".`,
           'any.only': `"ban_type" deve possuir um dos seguintes valores: "nuke".`,
+        }),
+    });
+  },
+  words_quantity: function () {
+    return Joi.object({
+      words_quantity: Joi.number()
+        .integer()
+        .min(1)
+        .max(9007199254740990)
+        .default(1)
+        .when('$required.words_quantity', { is: 'required', then: Joi.required(), otherwise: Joi.optional() })
+        .messages({
+          'any.required': `"words_quantity" é um campo obrigatório.`,
+          'string.empty': `"words_quantity" não pode estar em branco.`,
+          'number.base': `"words_quantity" deve ser do tipo Number.`,
+          'number.integer': `"words_quantity" deve ser um Inteiro.`,
+          'number.min': `"words_quantity" deve possuir um valor mínimo de 1.`,
+          'number.max': `"words_quantity" deve possuir um valor máximo de 9007199254740990.`,
+          'number.unsafe': `"words_quantity" deve possuir um valor máximo de 9007199254740990.`,
         }),
     });
   },
