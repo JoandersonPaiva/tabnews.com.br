@@ -110,6 +110,7 @@ function filterInput(user, feature, input) {
       slug: input.slug,
       title: input.title,
       body: input.body,
+      words_quantity: input.words_quantity,
       status: input.status,
       source_url: input.source_url,
     };
@@ -121,6 +122,7 @@ function filterInput(user, feature, input) {
       slug: input.slug,
       title: input.title,
       body: input.body,
+      words_quantity: input.words_quantity,
       status: input.status,
       source_url: input.source_url,
     };

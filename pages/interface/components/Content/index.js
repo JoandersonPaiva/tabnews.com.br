@@ -276,6 +276,7 @@ function EditMode({ contentObject, setContentObject, setComponentMode, localStor
 
       if (body || contentObject?.body) {
         requestBody.body = body;
+        requestBody.words_quantity = body.split(' ').length;
       }
 
       if (sourceUrl || contentObject?.source_url) {

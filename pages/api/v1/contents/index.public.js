@@ -85,6 +85,7 @@ function postValidationHandler(request, response, next) {
     slug: 'optional',
     title: request.body.parent_id ? 'optional' : 'required',
     body: 'required',
+    words_quantity: 'optional',
     status: 'optional',
     source_url: 'optional',
   });

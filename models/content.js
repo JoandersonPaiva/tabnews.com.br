@@ -108,6 +108,7 @@ async function findAll(values = {}, options = {}) {
         contents.title,
         ${!values?.attributes?.exclude?.includes('body') ? 'contents.body,' : ''}
         contents.status,
+        contents.words_quantity,
         contents.source_url,
         contents.created_at,
         contents.updated_at,
@@ -144,7 +145,6 @@ async function findAll(values = {}, options = {}) {
       } else {
         return `${accumulator} AND ${getColumnDeclaration(column)}`;
       }
-
       function getColumnDeclaration(column) {
         const columnName = column[0];
         const columnValue = column[1];
@@ -326,8 +326,8 @@ async function create(postedContent, options = {}) {
       WITH
         inserted_content as (
           INSERT INTO
-            contents (id, parent_id, owner_id, slug, title, body, status, source_url, published_at, path)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            contents (id, parent_id, owner_id, slug, title, body, words_quantity, status, source_url, published_at, path)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             RETURNING *
         )
       SELECT
@@ -337,6 +337,7 @@ async function create(postedContent, options = {}) {
         inserted_content.slug,
         inserted_content.title,
         inserted_content.body,
+        inserted_content.words_quantity,
         inserted_content.status,
         inserted_content.source_url,
         inserted_content.created_at,
@@ -357,6 +358,7 @@ async function create(postedContent, options = {}) {
         content.slug,
         content.title,
         content.body,
+        content.words_quantity,
         content.status,
         content.source_url,
         content.published_at,
@@ -467,6 +469,7 @@ function validateCreateSchema(content) {
     slug: 'required',
     title: 'optional',
     body: 'required',
+    words_quantity: 'required',
     status: 'required',
     source_url: 'optional',
   });
