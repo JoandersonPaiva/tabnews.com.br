@@ -108,7 +108,20 @@ async function findAll(values = {}, options = {}) {
         contents.title,
         ${!values?.attributes?.exclude?.includes('body') ? 'contents.body,' : ''}
         contents.status,
-        contents.words_quantity,
+        COALESCE(
+          contents.words_quantity,
+          (
+              SELECT 
+              CASE WHEN contents.body IS NULL OR contents.body = '' THEN 10
+                  ELSE (
+                      SELECT COUNT(*)
+                      FROM regexp_split_to_table(contents.body, E'\\\\s+') AS words
+                      WHERE words <> ''
+                  )
+              END AS word_count
+          ),
+          10
+      ) AS words_quantity,
         contents.source_url,
         contents.created_at,
         contents.updated_at,

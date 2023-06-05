@@ -6,7 +6,20 @@ const rankedContent = `
             contents.owner_id,
             contents.parent_id,
             contents.slug,
-            contents.words_quantity,
+            COALESCE(
+                contents.words_quantity,
+                (
+                    SELECT 
+                    CASE WHEN contents.body IS NULL OR contents.body = '' THEN 10
+                        ELSE (
+                            SELECT COUNT(*)
+                            FROM regexp_split_to_table(contents.body, E'\\\\s+') AS words
+                            WHERE words <> ''
+                        )
+                    END AS word_count
+                ),
+                10
+            ) AS words_quantity,
             contents.title,
             contents.status,
             contents.source_url,
